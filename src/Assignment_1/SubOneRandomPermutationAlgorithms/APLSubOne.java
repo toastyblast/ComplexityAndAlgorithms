@@ -1,5 +1,7 @@
 package Assignment_1.SubOneRandomPermutationAlgorithms;
 
+import java.util.Arrays;
+
 public class APLSubOne {
     private static final int ALGORITHM_TO_RUN = 1;
 
@@ -8,11 +10,11 @@ public class APLSubOne {
     }
 
     public void run() {
-        //Code here...
+        PermutationAlgorithms permutationAlgorithms = new PermutationAlgorithms(6);
 
         switch (ALGORITHM_TO_RUN) {
             case 1:
-                //Algorithm one...
+                System.out.println(Arrays.toString(permutationAlgorithms.algorithmOne()));
                 break;
             case 2:
                 //Algorithm two...
