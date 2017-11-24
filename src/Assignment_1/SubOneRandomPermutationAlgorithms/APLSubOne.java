@@ -2,9 +2,18 @@ package Assignment_1.SubOneRandomPermutationAlgorithms;
 
 import java.util.Arrays;
 
+/**
+ * APL for Complexity & Algorithms assignment 1.1, which is the one this duo chose.
+ * They are aware that there's a lot of duplicate code in the switches, but they do not know a quick fix for this, as
+ * timers have to stay right before and after the point that the algorithm is performed, additionally, all the output is
+ * somewhat different per algorithm for clarity's sake, in the way it's currently done.
+ *
+ * @author C&A-p 4 ~ Martin S. Slavov (435666) and Yoran Kerbusch (430818)
+ * Saxion Enschede HBO-IT International - Y2Q2 24/11/2017
+ */
 public class APLSubOne {
     //Use this value to set which algorithm should be used. Number corresponds to the question in assignment 1.1
-    private static final int ALGORITHM_TO_RUN = 3;
+    private static final int ALGORITHM_TO_RUN = 1;
 
     //Change this number to set how many numbers will be generated. The array will include all number between 1 and this value.
     //Algorithm 1 N = 5000, 10000, 20000, 50000, 100000 and 200000 numbers.
