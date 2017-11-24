@@ -33,11 +33,8 @@ public class PermutationAlgorithms {
             ints[i] = newNumber;
         }
 
-        int[] tempInts = Arrays.copyOf(ints, amountOfNumbers);
-
         if (doPermuteCheck) {
-            System.out.println("PERMUTE CHECKER - Array is permuted: " + uniqueChecker(tempInts));
-//            System.out.println("DEBUG - Sorted list for permuted check: " + Arrays.toString(tempInts));
+            doValidation(ints);
         }
 
         return ints;
@@ -66,11 +63,8 @@ public class PermutationAlgorithms {
             ints[i] = newNumber;
         }
 
-        int[] tempInts = Arrays.copyOf(ints, amountOfNumbers);
-
         if (doPermuteCheck) {
-            System.out.println("PERMUTE CHECKER - Array is permuted: " + uniqueChecker(tempInts));
-//            System.out.println("DEBUG - Sorted list for permuted check: " + Arrays.toString(tempInts));
+            doValidation(ints);
         }
 
         return ints;
@@ -79,20 +73,29 @@ public class PermutationAlgorithms {
     public int[] algorithmThree() {
         int[] ints = new int[amountOfNumbers];
 
-        //...
-
-        int[] tempInts = Arrays.copyOf(ints, amountOfNumbers);
+        //TODO...
 
         if (doPermuteCheck) {
-            System.out.println("PERMUTE CHECKER - Array is permuted: " + uniqueChecker(tempInts));
-//            System.out.println("DEBUG - Sorted list for permuted check: " + Arrays.toString(tempInts));
+            doValidation(ints);
         }
 
         return ints;
     }
 
-    public int generateRandomNumber() {
+    private int generateRandomNumber() {
         return (int) (Math.random() * amountOfNumbers) + 1;
+    }
+
+    /**
+     * Helper method that handles validating that the array is permuted and prints out its results.
+     *
+     * @param ints is the (hopefully) permuted list to be checked on that fact.
+     */
+    private void doValidation(int[] ints) {
+        int[] tempInts = Arrays.copyOf(ints, amountOfNumbers);
+
+        System.out.println("PERMUTE CHECKER - Array is permuted: " + uniqueChecker(tempInts));
+//        System.out.println("DEBUG - Sorted list for permuted check: " + Arrays.toString(tempInts));
     }
 
     /**
@@ -104,7 +107,7 @@ public class PermutationAlgorithms {
      * @return true if the array is permuted (no duplicated) or false if it is not (there are duplicated, in which case
      * the program is broken.)
      */
-    public boolean uniqueChecker(int[] arr) {
+    private boolean uniqueChecker(int[] arr) {
         quickSort(arr, 0, (amountOfNumbers - 1));
 
         for (int i = 1; i < arr.length; i++) {
@@ -129,7 +132,7 @@ public class PermutationAlgorithms {
      * @param low   is the left point of the pivot, so that it is known where to start the array to be sorted.
      * @param high  is the right point of the pivot, so that it is known where to end the array to be sorted.
      */
-    public static void quickSort(int[] array, int low, int high) {
+    private static void quickSort(int[] array, int low, int high) {
         if (array == null || array.length == 0) {
             return;
         }
