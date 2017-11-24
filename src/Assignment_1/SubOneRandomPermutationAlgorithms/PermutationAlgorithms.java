@@ -4,24 +4,26 @@ import java.util.Arrays;
 
 public class PermutationAlgorithms {
     private int amountOfNumbers;
+    private boolean doPermuteCheck;
 
-    public PermutationAlgorithms(int n) {
-        this.amountOfNumbers = n;
+    public PermutationAlgorithms(int N, boolean doPermuteCheck) {
+        this.amountOfNumbers = N;
+        this.doPermuteCheck = doPermuteCheck;
     }
 
-    public int[] algorithmOne(boolean doPermuteCheck){
-        int [] ints = new int[amountOfNumbers];
+    public int[] algorithmOne() {
+        int[] ints = new int[amountOfNumbers];
         int newNumber = -1;
 
-        for (int i = 0 ; i < ints.length ; i++){
+        for (int i = 0; i < ints.length; i++) {
             boolean isUnique = false;
 
-            while(!isUnique) {
+            while (!isUnique) {
                 newNumber = generateRandomNumber();
                 isUnique = true;
 
-                for (int j = 0; j < i ; j++) {
-                    if (ints[j] == newNumber){
+                for (int j = 0; j < i; j++) {
+                    if (ints[j] == newNumber) {
                         isUnique = false;
                         break;
                     }
@@ -30,8 +32,8 @@ public class PermutationAlgorithms {
 
             ints[i] = newNumber;
         }
-        
-        int [] tempInts = Arrays.copyOf(ints, amountOfNumbers);
+
+        int[] tempInts = Arrays.copyOf(ints, amountOfNumbers);
 
         if (doPermuteCheck) {
             System.out.println("PERMUTE CHECKER - Array is permuted: " + uniqueChecker(tempInts));
@@ -41,16 +43,56 @@ public class PermutationAlgorithms {
         return ints;
     }
 
-    public void algorithmTwo(){
-      //...
+    public int[] algorithmTwo() {
+        int[] ints = new int[amountOfNumbers];
+        //All values in an undefined boolean array are standard set to "false", which we need in our case.
+        boolean[] used = new boolean[amountOfNumbers];
+        int newNumber = -1;
+
+
+        for (int i = 0; i < ints.length; i++) {
+            boolean isUnique = false;
+
+            while (!isUnique) {
+                newNumber = generateRandomNumber();
+                isUnique = true;
+
+                if (used[(newNumber - 1)] == true) {
+                    isUnique = false;
+                }
+            }
+
+            used[(newNumber - 1)] = true;
+            ints[i] = newNumber;
+        }
+
+        int[] tempInts = Arrays.copyOf(ints, amountOfNumbers);
+
+        if (doPermuteCheck) {
+            System.out.println("PERMUTE CHECKER - Array is permuted: " + uniqueChecker(tempInts));
+//            System.out.println("DEBUG - Sorted list for permuted check: " + Arrays.toString(tempInts));
+        }
+
+        return ints;
     }
 
-    public void algorithmThree(){
-       //...
+    public int[] algorithmThree() {
+        int[] ints = new int[amountOfNumbers];
+
+        //...
+
+        int[] tempInts = Arrays.copyOf(ints, amountOfNumbers);
+
+        if (doPermuteCheck) {
+            System.out.println("PERMUTE CHECKER - Array is permuted: " + uniqueChecker(tempInts));
+//            System.out.println("DEBUG - Sorted list for permuted check: " + Arrays.toString(tempInts));
+        }
+
+        return ints;
     }
 
-    public int generateRandomNumber(){
-        return (int)(Math.random() * amountOfNumbers) + 1;
+    public int generateRandomNumber() {
+        return (int) (Math.random() * amountOfNumbers) + 1;
     }
 
     /**
@@ -62,15 +104,15 @@ public class PermutationAlgorithms {
      * @return true if the array is permuted (no duplicated) or false if it is not (there are duplicated, in which case
      * the program is broken.)
      */
-    public boolean uniqueChecker(int[] arr){
+    public boolean uniqueChecker(int[] arr) {
         quickSort(arr, 0, (amountOfNumbers - 1));
 
         for (int i = 1; i < arr.length; i++) {
-            if (arr[i] == arr[i-1]) {
+            if (arr[i] == arr[i - 1]) {
                 //Check if the last value is equal to the current value. If it is, the array is not permuted.
                 return false;
             }
-            if (arr[i] != (arr[i-1] + 1)) {
+            if (arr[i] != (arr[i - 1] + 1)) {
                 //Check if the last value equals the current one when increased by 1. If not, the array is not permuted.
                 return false;
             }
@@ -84,8 +126,8 @@ public class PermutationAlgorithms {
      * accidentally made a quicksort for ArrayLISTs, and at that point couldn't be bothered to transform everything anymore.
      *
      * @param array is the array that is to be quicksorted.
-     * @param low is the left point of the pivot, so that it is known where to start the array to be sorted.
-     * @param high is the right point of the pivot, so that it is known where to end the array to be sorted.
+     * @param low   is the left point of the pivot, so that it is known where to start the array to be sorted.
+     * @param high  is the right point of the pivot, so that it is known where to end the array to be sorted.
      */
     public static void quickSort(int[] array, int low, int high) {
         if (array == null || array.length == 0) {
