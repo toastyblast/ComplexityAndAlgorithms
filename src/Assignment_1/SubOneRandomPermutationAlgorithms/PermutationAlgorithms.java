@@ -7,10 +7,9 @@ public class PermutationAlgorithms {
 
     public PermutationAlgorithms(int n) {
         this.amountOfNumbers = n;
-
     }
 
-    public int[] algorithmOne(){
+    public int[] algorithmOne(boolean doPermuteCheck){
         int [] ints = new int[amountOfNumbers];
         int newNumber = -1;
 
@@ -31,11 +30,13 @@ public class PermutationAlgorithms {
 
             ints[i] = newNumber;
         }
-
-//        System.out.println("DEBUG - Randomly generated array (before permute check): " + Arrays.toString(ints));
+        
         int [] tempInts = Arrays.copyOf(ints, amountOfNumbers);
-//        System.out.println("DEBUG - ARRAY IS PERMUTED: " + uniqueChecker(tempInts));
-//        System.out.println("DEBUG - Sorted list for permuted check: " + Arrays.toString(tempInts));
+
+        if (doPermuteCheck) {
+            System.out.println("PERMUTE CHECKER - Array is permuted: " + uniqueChecker(tempInts));
+//            System.out.println("DEBUG - Sorted list for permuted check: " + Arrays.toString(tempInts));
+        }
 
         return ints;
     }
@@ -52,11 +53,25 @@ public class PermutationAlgorithms {
         return (int)(Math.random() * amountOfNumbers) + 1;
     }
 
+    /**
+     * Method that first quicksorts the array using a helper class and then checks if all values within the array are
+     * unique, aka permuted. The sorted array will NOT be given to the user, they'll still receive the randomized array.
+     * Included mainly as a test for DEBUG of new algorithms.
+     *
+     * @param arr is the array to be checked.
+     * @return true if the array is permuted (no duplicated) or false if it is not (there are duplicated, in which case
+     * the program is broken.)
+     */
     public boolean uniqueChecker(int[] arr){
         quickSort(arr, 0, (amountOfNumbers - 1));
 
         for (int i = 1; i < arr.length; i++) {
             if (arr[i] == arr[i-1]) {
+                //Check if the last value is equal to the current value. If it is, the array is not permuted.
+                return false;
+            }
+            if (arr[i] != (arr[i-1] + 1)) {
+                //Check if the last value equals the current one when increased by 1. If not, the array is not permuted.
                 return false;
             }
         }
@@ -64,43 +79,56 @@ public class PermutationAlgorithms {
         return true;
     }
 
-    public static void quickSort(int[] arr, int low, int high) {
-        if (arr == null || arr.length == 0)
+    /**
+     * A recursive quicksorting algorithm for arrays taken from www.programcreek.com. The team decided to do this after they
+     * accidentally made a quicksort for ArrayLISTs, and at that point couldn't be bothered to transform everything anymore.
+     *
+     * @param array is the array that is to be quicksorted.
+     * @param low is the left point of the pivot, so that it is known where to start the array to be sorted.
+     * @param high is the right point of the pivot, so that it is known where to end the array to be sorted.
+     */
+    public static void quickSort(int[] array, int low, int high) {
+        if (array == null || array.length == 0) {
             return;
-
-        if (low >= high)
+        }
+        if (low >= high) {
             return;
+        }
 
         // pick the pivot
         int middle = low + (high - low) / 2;
-        int pivot = arr[middle];
+        int pivot = array[middle];
 
         // make left < pivot and right > pivot
         int i = low, j = high;
+
         while (i <= j) {
-            while (arr[i] < pivot) {
+
+            while (array[i] < pivot) {
                 i++;
             }
 
-            while (arr[j] > pivot) {
+            while (array[j] > pivot) {
                 j--;
             }
 
             if (i <= j) {
-                int temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
+                int temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
                 i++;
                 j--;
             }
         }
 
-        // recursively sort two sub parts
-        if (low < j)
-            quickSort(arr, low, j);
+        // recursively sort two sub parts, the array left of the pivot and the array right of the pivot.
+        if (low < j) {
+            quickSort(array, low, j);
+        }
 
-        if (high > i)
-            quickSort(arr, i, high);
+        if (high > i) {
+            quickSort(array, i, high);
+        }
     }
 
     //Other methods...
