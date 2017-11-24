@@ -14,7 +14,10 @@ public class APLSubOne {
 
         switch (ALGORITHM_TO_RUN) {
             case 1:
-                System.out.println(Arrays.toString(permutationAlgorithms.algorithmOne()));
+                for (int i = 0; i < 10; i++) {
+                    System.out.println("Randomly generated permuted array: " + Arrays.toString(permutationAlgorithms.algorithmOne()));
+                }
+
                 break;
             case 2:
                 //Algorithm two...
