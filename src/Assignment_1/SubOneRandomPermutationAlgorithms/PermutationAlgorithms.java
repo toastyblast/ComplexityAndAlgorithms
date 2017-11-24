@@ -50,7 +50,7 @@ public class PermutationAlgorithms {
     }
 
     public void checker(){
-        
+
     }
 
     //Other methods...
