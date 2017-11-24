@@ -1,10 +1,10 @@
-package Assignment_1;
+package Assignment_1.SubTwoSortingAlgorithms;
 
-public class APLSubAssignmentOne {
+public class APLSubTwo {
     //Variables...
 
     public static void main(String[] args) {
-        new APLSubAssignmentOne().run();
+        new APLSubTwo().run();
     }
 
     public void run() {
