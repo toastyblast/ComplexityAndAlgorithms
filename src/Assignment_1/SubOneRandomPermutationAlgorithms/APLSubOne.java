@@ -35,7 +35,8 @@ public class APLSubOne {
         }
         else if (AMOUNT_OF_NUMBERS <= 0) {
             System.out.println("ERROR - Invalid amount of integers requested: " + AMOUNT_OF_NUMBERS);
-        } else if (NUMBER_OF_ALGORITHM_RUNS <= 0) {
+        }
+        else if (NUMBER_OF_ALGORITHM_RUNS <= 0) {
             System.out.println("ERROR - Invalid amount of times to run given: " + NUMBER_OF_ALGORITHM_RUNS);
         }
         else {
