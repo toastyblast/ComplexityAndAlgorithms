@@ -3,7 +3,13 @@ package Assignment_1.SubOneRandomPermutationAlgorithms;
 import java.util.Arrays;
 
 /**
- * ...
+ * Class that includes three permutation unsorted integer arrays generating methods. Also includes a method to check if
+ * the arrays are actually permuted or not, for DEBUG purposes.
+ * <p>
+ * Also includes a QuickSort method for arrays, taken from www.programcreek.com (more on this in the JavaDoc of that method).
+ *
+ * @author C&A-p 4 ~ Martin S. Slavov (435666) and Yoran Kerbusch (430818)
+ * Saxion Enschede HBO-IT International - Y2Q2 24/11/2017
  */
 public class PermutationAlgorithms {
     private int amountOfNumbers;
@@ -192,9 +198,12 @@ public class PermutationAlgorithms {
      */
     private static void quickSort(int[] array, int low, int high) {
         if (array == null || array.length == 0) {
+            //Base case, the array I've recursively been given is empty.
             return;
         }
         if (low >= high) {
+            //Base case, the left index (low) is equal or higher than the right index (high), meaning there's only one
+            // integer in the array, or it's empty.
             return;
         }
 
