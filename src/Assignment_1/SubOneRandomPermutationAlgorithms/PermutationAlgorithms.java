@@ -34,6 +34,7 @@ public class PermutationAlgorithms {
         }
 
         if (doPermuteCheck) {
+            //If the user wants to do the DEBUG permute check, then call the helper method for that.
             doValidation(ints);
         }
 
@@ -46,7 +47,6 @@ public class PermutationAlgorithms {
         boolean[] used = new boolean[amountOfNumbers];
         int newNumber = -1;
 
-
         for (int i = 0; i < ints.length; i++) {
             boolean isUnique = false;
 
@@ -55,6 +55,8 @@ public class PermutationAlgorithms {
                 isUnique = true;
 
                 if (used[(newNumber - 1)] == true) {
+                    //If the used array has true on the index that is the same as this value, it means the number is
+                    // already in the ints array. Therefore, it's not permuted and not unique, so a new number has to be generated.
                     isUnique = false;
                 }
             }
@@ -64,6 +66,7 @@ public class PermutationAlgorithms {
         }
 
         if (doPermuteCheck) {
+            //If the user wants to do the DEBUG permute check, then call the helper method for that.
             doValidation(ints);
         }
 
@@ -73,9 +76,23 @@ public class PermutationAlgorithms {
     public int[] algorithmThree() {
         int[] ints = new int[amountOfNumbers];
 
-        //TODO...
+        for (int i = 0; i < ints.length; i++) {
+            //Set the value of the latest i (index) to i + 1 (since we go from 1 till N instead of from 0 till N - 1).
+            ints[i] = (i + 1);
+
+            //Pick a random index between 0 and i.
+            int randomIndex = (int) (Math.random() * i);
+
+            //Get the value at the random index.
+            int temp = ints[randomIndex];
+            //Make the random index the new i.
+            ints[randomIndex] = (i + 1);
+            //Then make i the old value of the random index.
+            ints[i] = temp;
+        }
 
         if (doPermuteCheck) {
+            //If the user wants to do the DEBUG permute check, then call the helper method for that.
             doValidation(ints);
         }
 

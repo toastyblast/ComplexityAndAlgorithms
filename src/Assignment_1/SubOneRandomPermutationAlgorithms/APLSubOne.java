@@ -13,13 +13,13 @@ import java.util.Arrays;
  */
 public class APLSubOne {
     //Use this value to set which algorithm should be used. Number corresponds to the question in assignment 1.1
-    private static final int ALGORITHM_TO_RUN = 2;
+    private static final int ALGORITHM_TO_RUN = 1;
 
     //Change this number to set how many numbers will be generated. The array will include all number between 1 and this value.
     //Algorithm 1 N = 5000, 10000, 20000, 50000, 100000 and 200000 numbers.
     //Algorithm 2 N = 100000, 200000, 500000, 1000000, 5000000 and 10000000 numbers.
     //Algorithm 3 N = 2000000, 5000000, 10000000, 20000000, 50000000, 100000000 numbers.
-    private static final int AMOUNT_OF_NUMBERS = 10000000;
+    private static final int AMOUNT_OF_NUMBERS = 5000;
 
     //Change this value to set how many times the algorithm that was chosen will be run.
     private static final int NUMBER_OF_ALGORITHM_RUNS = 10;
