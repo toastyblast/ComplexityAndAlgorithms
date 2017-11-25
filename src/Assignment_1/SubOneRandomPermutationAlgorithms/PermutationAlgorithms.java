@@ -2,6 +2,9 @@ package Assignment_1.SubOneRandomPermutationAlgorithms;
 
 import java.util.Arrays;
 
+/**
+ * ...
+ */
 public class PermutationAlgorithms {
     private int amountOfNumbers;
     private boolean doPermuteCheck;
@@ -11,6 +14,15 @@ public class PermutationAlgorithms {
         this.doPermuteCheck = doPermuteCheck;
     }
 
+    /**
+     * Method that generates an unsorted array of integers according to permutation rules. The array will include the
+     * integers 1 up till amountOfNumbers, in a random order.
+     * <p>
+     * This method checks if the generated number is unique by comparing it to every value already put in the array.
+     * If not, it generates a new number and repeats this checking. Else it adds the number to the array.
+     *
+     * @return int[] array with random integers between 1 and amountOfNumbers, generated according to permutation rules.
+     */
     public int[] algorithmOne() {
         int[] ints = new int[amountOfNumbers];
         int newNumber = -1;
@@ -23,7 +35,10 @@ public class PermutationAlgorithms {
                 isUnique = true;
 
                 for (int j = 0; j < i; j++) {
+                    //Go through every already added value in the array ints.
                     if (ints[j] == newNumber) {
+                        //If the newly generated random number is already in the array, it's not unique: start the
+                        // while-loop again to generate a new number.
                         isUnique = false;
                         break;
                     }
@@ -41,6 +56,18 @@ public class PermutationAlgorithms {
         return ints;
     }
 
+    /**
+     * Method that generates an unsorted array of integers according to permutation rules. The array will include the
+     * integers 1 up till amountOfNumbers, in a random order.
+     * <p>
+     * This method has a second array of "false" booleans. Once a new number is generated, this array is checked at the
+     * index that's equal to the value of the newly generated number (- 1 due to array indexing starting at 0).
+     * If it's "true", the newly generated number is not unique, and a new one is generated, then repeating the checks.
+     * If it's "false", the newly generated integer is unique and  it's set to "true", adding the newly generated
+     * integer is added to the array of integers.
+     *
+     * @return int[] array with random integers between 1 and amountOfNumbers, generated according to permutation rules.
+     */
     public int[] algorithmTwo() {
         int[] ints = new int[amountOfNumbers];
         //All values in an undefined boolean array are standard set to "false", which we need in our case.
@@ -73,6 +100,15 @@ public class PermutationAlgorithms {
         return ints;
     }
 
+    /**
+     * Method that generates an unsorted array of integers according to permutation rules. The array will include the
+     * integers 1 up till amountOfNumbers, in a random order.
+     * <p>
+     * This method takes the i value of the for-loop and puts i + 1 on the end of the array. It then picks a random
+     * index between 0 and i and gets the value of that index. It then swaps this value with the new value.
+     *
+     * @return int[] array with random integers between 1 and amountOfNumbers, generated according to permutation rules.
+     */
     public int[] algorithmThree() {
         int[] ints = new int[amountOfNumbers];
 
@@ -99,6 +135,11 @@ public class PermutationAlgorithms {
         return ints;
     }
 
+    /**
+     * Helper method that generates a random integer between 1 and amountOfNumbers (given maximum array size).
+     *
+     * @return int: a random integer between 1 and amountOfNumbers.
+     */
     private int generateRandomNumber() {
         return (int) (Math.random() * amountOfNumbers) + 1;
     }
@@ -192,6 +233,4 @@ public class PermutationAlgorithms {
             quickSort(array, i, high);
         }
     }
-
-    //Other methods...
 }
