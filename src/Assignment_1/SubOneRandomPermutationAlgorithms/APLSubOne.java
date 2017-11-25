@@ -30,7 +30,17 @@ public class APLSubOne {
     private static final boolean CHECK_ARRAY_IS_PERMUTED = false;
 
     public static void main(String[] args) {
-        new APLSubOne().run();
+        if (ALGORITHM_TO_RUN <= 0 || ALGORITHM_TO_RUN >= 4) {
+            System.out.println("ERROR - Invalid algorithm code requested: " + AMOUNT_OF_NUMBERS + " does not exist.");
+        }
+        else if (AMOUNT_OF_NUMBERS <= 0) {
+            System.out.println("ERROR - Invalid amount of integers requested: " + AMOUNT_OF_NUMBERS);
+        } else if (NUMBER_OF_ALGORITHM_RUNS <= 0) {
+            System.out.println("ERROR - Invalid amount of times to run given: " + NUMBER_OF_ALGORITHM_RUNS);
+        }
+        else {
+            new APLSubOne().run();
+        }
     }
 
     public void run() {
@@ -39,7 +49,7 @@ public class APLSubOne {
         System.out.println("Are the arrays being checked if they're valid (permuted)? " + CHECK_ARRAY_IS_PERMUTED + ".\n");
 
         long totalTime = 0;
-        long averageTime = 0;
+        long averageTime;
 
         switch (ALGORITHM_TO_RUN) {
             case 1:
