@@ -54,7 +54,9 @@ public class APLSubOne {
 
         switch (ALGORITHM_TO_RUN) {
             case 1:
+                //User wants to run algorithm one.
                 for (int i = 1; i <= NUMBER_OF_ALGORITHM_RUNS; i++) {
+                    //Run the algorithm for the amount of times specified by the user.
                     System.out.println("Sub-Assignment 1.1 - ALGORITHM ONE Run #" + i);
 
                     long startTime = System.currentTimeMillis();
@@ -66,11 +68,13 @@ public class APLSubOne {
                 }
 
                 averageTime = totalTime / NUMBER_OF_ALGORITHM_RUNS;
-                System.out.println("Average time taken over " + NUMBER_OF_ALGORITHM_RUNS + " number of runs: " + averageTime + " ms.");
+                System.out.println("ALGORITHM ONE - Average time taken over " + NUMBER_OF_ALGORITHM_RUNS + " number of runs: " + averageTime + " ms.");
 
                 break;
             case 2:
+                //User wants to run algorithm two.
                 for (int i = 1; i <= NUMBER_OF_ALGORITHM_RUNS; i++) {
+                    //Run the algorithm for the amount of times specified by the user.
                     System.out.println("Sub-Assignment 1.2 - ALGORITHM TWO Run #" + i);
 
                     long startTime = System.currentTimeMillis();
@@ -82,11 +86,13 @@ public class APLSubOne {
                 }
 
                 averageTime = totalTime / NUMBER_OF_ALGORITHM_RUNS;
-                System.out.println("Average time taken over " + NUMBER_OF_ALGORITHM_RUNS + " number of runs: " + averageTime + " ms.");
+                System.out.println("ALGORITHM TWO - Average time taken over " + NUMBER_OF_ALGORITHM_RUNS + " number of runs: " + averageTime + " ms.");
 
                 break;
             case 3:
+                //User wants to run algorithm three.
                 for (int i = 1; i <= NUMBER_OF_ALGORITHM_RUNS; i++) {
+                    //Run the algorithm for the amount of times specified by the user.
                     System.out.println("Sub-Assignment 1.3 - ALGORITHM THREE Run #" + i);
 
                     long startTime = System.currentTimeMillis();
@@ -98,7 +104,7 @@ public class APLSubOne {
                 }
 
                 averageTime = totalTime / NUMBER_OF_ALGORITHM_RUNS;
-                System.out.println("Average time taken over " + NUMBER_OF_ALGORITHM_RUNS + " number of runs: " + averageTime + " ms.");
+                System.out.println("ALGORITHM THREE - Average time taken over " + NUMBER_OF_ALGORITHM_RUNS + " number of runs: " + averageTime + " ms.");
 
                 break;
             default:

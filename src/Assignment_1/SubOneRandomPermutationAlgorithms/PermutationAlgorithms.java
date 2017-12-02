@@ -159,6 +159,7 @@ public class PermutationAlgorithms {
         int[] tempInts = Arrays.copyOf(ints, amountOfNumbers);
 
         System.out.println("PERMUTE CHECKER - Array is permuted: " + uniqueChecker(tempInts));
+        //TODO - TEACHER: Uncomment the line below to also feature the sorted version of the generated list in the output. WARNING: Will overflow the run terminal with big lists.
 //        System.out.println("DEBUG - Sorted list for permuted check: " + Arrays.toString(tempInts));
     }
 
