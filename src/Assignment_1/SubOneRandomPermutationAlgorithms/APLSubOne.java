@@ -44,7 +44,7 @@ public class APLSubOne {
         }
     }
 
-    public void run() {
+    private void run() {
         PermutationAlgorithms permutationAlgorithms = new PermutationAlgorithms(AMOUNT_OF_NUMBERS, CHECK_ARRAY_IS_PERMUTED);
 
         System.out.println("Are the arrays being checked if they're valid (permuted)? " + CHECK_ARRAY_IS_PERMUTED + ".\n");
