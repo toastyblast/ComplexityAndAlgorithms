@@ -1,17 +1,23 @@
 package Assignment_2.SubTwoDEPQ;
 
+import java.util.ArrayList;
+
 /**
  * Using the Symmetric Min-Max Heap V1.0 (http://people.cs.nctu.edu.tw/~chengchc/Course_2011_Fall_DS/DS_09_Heaps.pdf)
  */
 public class DEPQ {
-    private final Node startingNode;
+    private ArrayList<Integer> heap;
 
     public DEPQ() {
-        startingNode = new Node();
+        heap = new ArrayList<>();
+    }
+
+    public ArrayList<Integer> getHeap() {
+        return heap;
     }
 
     public boolean isEmpty() {
-        return (startingNode.getLeftChild() == null && startingNode.getRightChild() == null);
+        return (heap.get(1) == null && heap.get(2) == null);
     }
 
     public int size() {
@@ -20,10 +26,8 @@ public class DEPQ {
     }
 
     public int getMin() {
-        Node leftChild = startingNode.getLeftChild();
-
-        if (leftChild != null) {
-            return leftChild.getValue();
+        if (heap.get(1) != null) {
+            return heap.get(1);
         }
         else {
             return 0;
@@ -31,10 +35,8 @@ public class DEPQ {
     }
 
     public int getMax() {
-        Node rightChild = startingNode.getRightChild();
-
-        if (rightChild != null) {
-            return rightChild.getValue();
+        if (heap.get(2) != null) {
+            return heap.get(2);
         }
         else {
             return 0;
