@@ -134,6 +134,7 @@ public class DEPQ {
     public void changePriority(int index, int newPriority) {
         if (index >= 2 && index <= depq.size()) {
             if (newPriority >= 1) {
+//                index = index - 1;
                 //TODO: Check if the priority is different to the old one, then move around the node accordingly
                 //...
             } else {
