@@ -159,10 +159,17 @@ public class DEPQ {
         return false;
     }
 
+    /**
+     * Helper method that returns the index of the min-heap node corresponding to the given index on the max-heap.
+     *
+     * @param index int is the index of the node on the max-heap.
+     * @return int index of the corresponding min-heap node to this max-heap node.
+     */
     private int getCorrespondingMinNodeIndex(int index) {
-        //TODO: Get the index of the node corresponding to the one at the given index.
-        //...
-        return 0;
+        //In this case, there's always a guarantee that there are child nodes in the min-heap on the height
+        // corresponding to the height of this node, which means we'll not have to do checks for that.
+        //TODO - NOT SURE: Checks just to be sure, even though it should not be needed?
+        return (int) (index - Math.pow(2, Math.floor(Math.log(index)/Math.log(2)) - 1));
     }
 
     private int getCorrespondingMaxNodeIndex(int index) {
