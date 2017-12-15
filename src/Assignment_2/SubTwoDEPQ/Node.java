@@ -7,17 +7,9 @@ package Assignment_2.SubTwoDEPQ;
 public class Node {
     private int key, value;
 
-    public Node() {
-        //Empty constructor.
-    }
-
     public Node(int key, int value) {
         this.key = key;
         this.value = value;
-    }
-
-    public void setKey(int key) {
-        this.key = key;
     }
 
     public int getKey() {

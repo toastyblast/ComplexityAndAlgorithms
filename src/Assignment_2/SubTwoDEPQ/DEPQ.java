@@ -48,7 +48,7 @@ public class DEPQ {
             return depq.get(1).getValue();
         }
 
-        return 0;
+        return -1;
     }
 
     /**
@@ -62,11 +62,12 @@ public class DEPQ {
             return depq.get(2).getValue();
         }
 
-        return 0;
+        return -1;
     }
 
     /**
-     * Adds a new node to the SMMH DEPQ, sorting it into the right place of said heap.
+     * Adds a new node to the end of the SMMH DEPQ, after which it sorts this new Node into the right place of said heap
+     * according to its priority.
      *
      * @param priority int is the priority to be given to the new node. Must be at least 1.
      * @param value    int is a value that can be given to the node, for purely aesthetic reasons.
@@ -124,24 +125,7 @@ public class DEPQ {
         if (depq.size() >= 2) {
             depq.set(1, null);
 
-            //Now percolate the empty node down as many times as possible with the help of this recursive method.
-            int indexToFill = minPercolateDown(null);
-            //Then we need to swap this now empty node with a filled in one, namely the one at the end of the array
-            // (most down right of the tree.)
-            int lastNodeIndex = depq.size() - 1;
-            Node lastNode = depq.get(lastNodeIndex);
-
-            //Swap the last node in the array with the empty node.
-            swapNodes(null, lastNode);
-
-            //Check if the last node isn't this current one, otherwise you will get nullPointer exceptions.
-            if (indexToFill != lastNodeIndex) {
-                //And then finally check if the node now at the empty node's place still needs to swap places with any parents.
-                minPercolateUp(lastNode);
-            }
-
-            //And then remove that null "Node" from the SMMH DEPQ/ArrayList.
-            depq.remove(lastNodeIndex);
+            repairHeapAfterRemoval(1);
         }
     }
 
@@ -154,33 +138,35 @@ public class DEPQ {
         if (depq.size() >= 3) {
             depq.set(2, null);
 
-            //Now percolate the empty node down as many times as possible with the help of this recursive method.
-            int indexToFill = maxPercolateDown(null);
-            //Then we need to swap this now empty node with a filled in one, namely the one at the end of the array
-            // (most down right of the tree.)
-            int lastNodeIndex = depq.size() - 1;
-            Node lastNode = depq.get(lastNodeIndex);
-
-            //Swap the last node in the array with the empty node.
-            swapNodes(null, lastNode);
-
-            //Check if the last node isn't this current one, otherwise you will get nullPointer exceptions.
-            if (indexToFill != lastNodeIndex) {
-                //And then finally check if the node now at the empty node's place still needs to swap places with any parents.
-                maxPercolateUp(lastNode);
-            }
-
-            //And then remove that null "Node" from the SMMH DEPQ/ArrayList.
-            depq.remove(lastNodeIndex);
+            repairHeapAfterRemoval(2);
         }
     }
 
+    /**
+     * Method that allows the user to change the priority of any Node on the given index, as long as this index is
+     * valid (between 1 and depq.size). It does this by removing the old node, repairing the heap and then adding the
+     * Node with the new priority to the end of the heap and percolating it up.
+     *
+     * @param index int is the index of the Node the user wants to change the priority of.
+     * @param newPriority int is the new priority the user wants to give the node.
+     */
     public void changePriority(int index, int newPriority) {
         if (index >= 2 && index <= depq.size()) {
+
             if (newPriority >= 1) {
-                index = index - 1;
-                //TODO: Check if the priority is different to the old one, then move around the node accordingly
-                //...
+                index--;
+                Node nodeToChange = depq.get(index);
+
+                if (newPriority != nodeToChange.getKey()) {
+                    //This means the newly given priority is different than the original one, and we'll have to change things.
+                    int originalValue = nodeToChange.getValue();
+
+                    depq.set(index, null);
+
+                    repairHeapAfterRemoval(index);
+
+                    this.put(newPriority, originalValue);
+                }
             } else {
                 System.out.println("ERROR: Cannot change a node's priority to 0 or less in the SMMH DEPQ. Please enter a new priority of at least 1.");
             }
@@ -197,11 +183,12 @@ public class DEPQ {
     public String simpleArrayToString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("<@> Node #0 - ROOT\n");
+        sb.append("<@> Node #1 - ROOT\n");
 
         for (int i = 1; i < depq.size(); i++) {
             Node node = depq.get(i);
-            sb.append("<-> Node #" + i + " - " + node.toString() + '\n');
+            int alterIndex = i + 1;
+            sb.append("<-> Node #" + alterIndex + " - " + node.toString() + '\n');
         }
 
         return sb.toString();
@@ -316,6 +303,48 @@ public class DEPQ {
                 maxPercolateUp(node);
             }
         }
+    }
+
+    /**
+     * Helper method that can be used to repair either the max- or the min-heap (depending on the index of the removed
+     * node) after a Node has been set to null (effectively removed). This method will percolate the null Node down,
+     * swap it and then remove it, while percolating the swapped node back up.
+     * <p>
+     * PREREQUISITE: The index is of the node that has just been set to null and the node has indeed been set to null.
+     *
+     * @param index int is the index of the node that has just been set to null.
+     */
+    public void repairHeapAfterRemoval(int index) {
+        boolean isInMax = isInMaxHeap(index);
+        int indexToFill;
+
+        if (isInMax) {
+            //Now percolate the empty node down as many times as possible with the help of this recursive method.
+            indexToFill = maxPercolateDown(null);
+        } else {
+            //Now percolate the empty node down as many times as possible with the help of this recursive method.
+            indexToFill = minPercolateDown(null);
+        }
+        //Then we need to swap this now empty node with a filled in one, namely the one at the end of the array
+        // (most down right of the tree.)
+        int lastNodeIndex = depq.size() - 1;
+        Node lastNode = depq.get(lastNodeIndex);
+
+        //Swap the last node in the array with the empty node.
+        swapNodes(null, lastNode);
+
+        //Check if the last node isn't this current one, otherwise you will get nullPointer exceptions.
+        if (indexToFill != lastNodeIndex) {
+            if (isInMax) {
+                //And then finally check if the node now at the empty node's place still needs to swap places with any parents.
+                maxPercolateUp(lastNode);
+            } else {
+                minPercolateUp(lastNode);
+            }
+        }
+
+        //And then remove that null "Node" from the SMMH DEPQ/ArrayList.
+        depq.remove(lastNodeIndex);
     }
 
     /**
