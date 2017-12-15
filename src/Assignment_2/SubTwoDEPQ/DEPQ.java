@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * A DEPQ that works according to the rules set by the Symmetric Min-Max Heap V1.0
  * (http://people.cs.nctu.edu.tw/~chengchc/Course_2011_Fall_DS/DS_09_Heaps.pdf)
- *
+ * <p>
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * PLEASE NOTE: Some helper methods or parts of methods might seem duplicate. This has been decided upon by the duo
  * consciously for the sake of readability. Merging the methods like for example maxPercolateUp() and minPercolateUp
@@ -153,7 +153,7 @@ public class DEPQ {
      * valid (between 1 and depq.size). It does this by removing the old node, repairing the heap and then adding the
      * Node with the new priority to the end of the heap and percolating it up.
      *
-     * @param index int is the index of the Node the user wants to change the priority of.
+     * @param index       int is the index of the Node the user wants to change the priority of.
      * @param newPriority int is the new priority the user wants to give the node.
      */
     public void changePriority(int index, int newPriority) {
