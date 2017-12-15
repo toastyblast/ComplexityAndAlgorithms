@@ -1,7 +1,6 @@
 package Assignment_2.SubTwoDEPQ;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 
 /**
  * A DEPQ that works according to the rules set by the Symmetric Min-Max Heap V1.0
@@ -17,6 +16,8 @@ public class DEPQ {
         //Set the root node to highest priority with a value of zero, so it's always at the top.
         depq.add(new Node(0, 0));
     }
+
+    /*--- START OF USER METHODS -------------------------------------------------------------------------------------*/
 
     /**
      * Method that returns if the SMMH DEPQ is empty or not. Does not count the empty root node, as this one is always present.
@@ -85,31 +86,27 @@ public class DEPQ {
                     //The new node has been placed in the max-heap, aka the right part of the root node.
                     int indexCorrespondingNode = getCorrespondingMinNodeIndex(indexNew);
                     Node correspondingNode = depq.get(indexCorrespondingNode);
-//                    System.out.println("This node (max): " + nodeToAdd.toString() + ". Min-heap correspondant: " + correspondingNode);
 
                     if (priority < correspondingNode.getKey()) {
                         //Swap the newly added node on the max-heap with its corresponding node on the min-heap
-                        swapNodes(indexNew, nodeToAdd, indexCorrespondingNode, correspondingNode);
-                        indexNew = indexCorrespondingNode;
+                        swapNodes(nodeToAdd, correspondingNode);
 
-                        minPercolateUp(indexNew, nodeToAdd);
+                        minPercolateUp(nodeToAdd);
                     } else {
-                        maxPercolateUp(indexNew, nodeToAdd);
+                        maxPercolateUp(nodeToAdd);
                     }
                 } else {
                     //The new node has been placed in the min-heap, aka the left part of the root node.
                     int indexCorrespondingNode = getCorrespondingMaxNodeIndex(indexNew);
                     Node correspondingNode = depq.get(indexCorrespondingNode);
-//                    System.out.println("This node (min): " + nodeToAdd.toString() + ". Max-heap correspondant: " + correspondingNode);
 
                     if (priority > correspondingNode.getKey()) {
                         //Swap the newly added node on the min-heap with its corresponding node on the max-heap
-                        swapNodes(indexNew, nodeToAdd, indexCorrespondingNode, correspondingNode);
-                        indexNew = indexCorrespondingNode;
+                        swapNodes(nodeToAdd, correspondingNode);
 
-                        maxPercolateUp(indexNew, nodeToAdd);
+                        maxPercolateUp(nodeToAdd);
                     } else {
-                        minPercolateUp(indexNew, nodeToAdd);
+                        minPercolateUp(nodeToAdd);
                     }
                 }
             }
@@ -118,24 +115,29 @@ public class DEPQ {
         }
     }
 
+    /**
+     * Method that can be used to remove the minimum priority node of the SMMH DEPQ, which is the left child Node of
+     * the root Node. This means that this node is the top of the max-heap of the SMMH DEPQ.
+     * It will immediately rebuild the min-heap as well, so that the whole SMMH DEPQ is once more valid.
+     */
     public void removeMin() {
         if (depq.size() >= 2) {
             depq.set(1, null);
 
             //Now percolate the empty node down as many times as possible with the help of this recursive method.
-            int indexToFill = minPercolateDown(1, null);
+            int indexToFill = minPercolateDown(null);
             //Then we need to swap this now empty node with a filled in one, namely the one at the end of the array
             // (most down right of the tree.)
             int lastNodeIndex = depq.size() - 1;
             Node lastNode = depq.get(lastNodeIndex);
 
             //Swap the last node in the array with the empty node.
-            swapNodes(indexToFill, null, lastNodeIndex, lastNode);
+            swapNodes(null, lastNode);
 
             //Check if the last node isn't this current one, otherwise you will get nullPointer exceptions.
             if (indexToFill != lastNodeIndex) {
                 //And then finally check if the node now at the empty node's place still needs to swap places with any parents.
-                minPercolateUp(indexToFill, lastNode);
+                minPercolateUp(lastNode);
             }
 
             //And then remove that null "Node" from the SMMH DEPQ/ArrayList.
@@ -143,24 +145,29 @@ public class DEPQ {
         }
     }
 
+    /**
+     * Method that can be used to remove the maximum priority node of the SMMH DEPQ, which is the right child Node of
+     * the root Node. This means that this node is the top of the max-heap of the SMMH DEPQ.
+     * It will immediately rebuild the min-heap as well, so that the whole SMMH DEPQ is once more valid.
+     */
     public void removeMax() {
         if (depq.size() >= 3) {
             depq.set(2, null);
 
             //Now percolate the empty node down as many times as possible with the help of this recursive method.
-            int indexToFill = maxPercolateDown(2, null);
+            int indexToFill = maxPercolateDown(null);
             //Then we need to swap this now empty node with a filled in one, namely the one at the end of the array
             // (most down right of the tree.)
             int lastNodeIndex = depq.size() - 1;
             Node lastNode = depq.get(lastNodeIndex);
 
             //Swap the last node in the array with the empty node.
-            swapNodes(indexToFill, null, lastNodeIndex, lastNode);
+            swapNodes(null, lastNode);
 
             //Check if the last node isn't this current one, otherwise you will get nullPointer exceptions.
             if (indexToFill != lastNodeIndex) {
                 //And then finally check if the node now at the empty node's place still needs to swap places with any parents.
-                maxPercolateUp(indexToFill, lastNode);
+                maxPercolateUp(lastNode);
             }
 
             //And then remove that null "Node" from the SMMH DEPQ/ArrayList.
@@ -181,6 +188,28 @@ public class DEPQ {
             System.out.println("ERROR: Cannot change the priority of the root node (index 1) or non-existent nodes (given index > size of depq).");
         }
     }
+
+    /**
+     * Method that gives a simple output for the ArrayList (SMMH DEPQ) that holds all the nodes.
+     *
+     * @return String from StringBuilder that has a list of all nodes in the SMMH DEPQ Arraylist.
+     */
+    public String simpleArrayToString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("<@> Node #0 - ROOT\n");
+
+        for (int i = 1; i < depq.size(); i++) {
+            Node node = depq.get(i);
+            sb.append("<-> Node #" + i + " - " + node.toString() + '\n');
+        }
+
+        return sb.toString();
+    }
+
+    /*--------------------------------------------------------------------------------------- END OF USER METHODS ---*/
+
+    /*--- START OF HELPER METHODS -----------------------------------------------------------------------------------*/
 
     /**
      * Helper method that checks if the given index is located in the min-heap (left side of empty root) or in the
@@ -242,12 +271,13 @@ public class DEPQ {
      * as array indexing starts at said value.
      * !!!WARNING!!! Does not rebuild the heap after this, as all methods using this one should be doing that themselves.
      *
-     * @param indexFirstNode  int is the index of the first node.
-     * @param firstNode       Node is the first node to be swapped with the other.
-     * @param indexSecondNode int is the index of the second node.
-     * @param secondNode      Node is the second node that needs to be swapped with the first.
+     * @param firstNode  Node is the first node to be swapped with the other.
+     * @param secondNode Node is the second node that needs to be swapped with the first.
      */
-    private void swapNodes(int indexFirstNode, Node firstNode, int indexSecondNode, Node secondNode) {
+    private void swapNodes(Node firstNode, Node secondNode) {
+        int indexFirstNode = depq.indexOf(firstNode);
+        int indexSecondNode = depq.indexOf(secondNode);
+
         depq.set(indexSecondNode, firstNode);
         depq.set(indexFirstNode, secondNode);
     }
@@ -255,18 +285,17 @@ public class DEPQ {
     /**
      * Helper method that compares the given node IN A MIN-HEAP with their parent and swaps them around if needed.
      *
-     * @param indexNode int is the index of the given node.
-     * @param node      Node is the node that needs to be compared with its parent for possible swapping.
+     * @param node Node is the node that needs to be compared with its parent for possible swapping.
      */
-    private void minPercolateUp(int indexNode, Node node) {
+    private void minPercolateUp(Node node) {
+        int indexNode = depq.indexOf(node);
+
         if (indexNode != 0 && indexNode != 1 && indexNode != 2) {
             Node parentNode = getParentNode(indexNode);
 
             if (node.getKey() < parentNode.getKey()) {
-                int parentIndex = depq.indexOf(parentNode);
-
-                swapNodes(indexNode, node, parentIndex, parentNode);
-                minPercolateUp(parentIndex, node);
+                swapNodes(node, parentNode);
+                minPercolateUp(node);
             }
         }
     }
@@ -274,18 +303,17 @@ public class DEPQ {
     /**
      * Helper method that compares the given node IN A MAX-HEAP with their parent and swaps them around if needed.
      *
-     * @param indexNode int is the index of the given node.
-     * @param node      Node is the node that needs to be compared with its parent for possible swapping.
+     * @param node Node is the node that needs to be compared with its parent for possible swapping.
      */
-    private void maxPercolateUp(int indexNode, Node node) {
+    private void maxPercolateUp(Node node) {
+        int indexNode = depq.indexOf(node);
+
         if (indexNode != 0 && indexNode != 1 && indexNode != 2) {
             Node parentNode = getParentNode(indexNode);
 
             if (node.getKey() > parentNode.getKey()) {
-                int parentIndex = depq.indexOf(parentNode);
-
-                swapNodes(indexNode, node, parentIndex, parentNode);
-                maxPercolateUp(parentIndex, node);
+                swapNodes(node, parentNode);
+                maxPercolateUp(node);
             }
         }
     }
@@ -293,94 +321,86 @@ public class DEPQ {
     /**
      * Recursive helper method for percolating a Node in the min-heap downwards, for use with the .removeMin() method.
      *
-     * @param minIndex int is the index of the given Node.
      * @param minNode Node is the given Node to percolate downwards in the min-heap.
      * @return int the new index of the Node after it has been percolated down as many times as possible.
      */
-    private int minPercolateDown(int minIndex, Node minNode) {
-        if (minNode == null) {
-            //We are rebuilding the min heap after removal of the min node, so swap it with the smallest values each time.
-            Node leftMinChild = getLeftChild(minIndex);
-            Node rightMaxChild = getRightChild(minIndex);
-            int nextMinIndex = minIndex;
+    private int minPercolateDown(Node minNode) {
+        int minIndex = depq.indexOf(minNode);
+        //We are rebuilding the min heap after removal of the min node, so swap it with the smallest values each time.
+        Node leftMinChild = getLeftChild(minIndex);
+        Node rightMaxChild = getRightChild(minIndex);
+        int nextMinIndex = minIndex;
 
-            if (leftMinChild != null && rightMaxChild != null) {
-                //Compare the two children's priority first.
-                if (leftMinChild.getKey() < rightMaxChild.getKey()) {
-                    //The left child should be on the position of the null node, in this case.
-                    nextMinIndex = depq.indexOf(leftMinChild);
-                    swapNodes(minIndex, minNode, nextMinIndex, leftMinChild);
-                } else {
-                    //The left child should be on the position of the null node, in this case.
-                    nextMinIndex = depq.indexOf(rightMaxChild);
-                    swapNodes(minIndex, minNode, nextMinIndex, rightMaxChild);
-                }
-            } else if (leftMinChild != null) {
+        if (leftMinChild != null && rightMaxChild != null) {
+            //Compare the two children's priority first.
+            if (leftMinChild.getKey() < rightMaxChild.getKey()) {
                 //The left child should be on the position of the null node, in this case.
                 nextMinIndex = depq.indexOf(leftMinChild);
-                swapNodes(minIndex, minNode, nextMinIndex, leftMinChild);
-            }
-            //NOTE: There cannot be a right child if the left child is null, as nodes should always have another node
-            // left of them.
-
-            if (nextMinIndex == minIndex) {
-                //BASE CASE: If the nextMinIndex hasn't changed, that means this node has no children anymore. In that
-                // case, return this empty node's minIndex.
-                return minIndex;
+                swapNodes(minNode, leftMinChild);
             } else {
-                //The Node still had children, so check if you can percolate even further down, if its new minIndex has
-                // any children too.
-                return minPercolateDown(nextMinIndex, minNode);
+                //The left child should be on the position of the null node, in this case.
+                nextMinIndex = depq.indexOf(rightMaxChild);
+                swapNodes(minNode, rightMaxChild);
             }
+        } else if (leftMinChild != null) {
+            //The left child should be on the position of the null node, in this case.
+            nextMinIndex = depq.indexOf(leftMinChild);
+            swapNodes(minNode, leftMinChild);
+        }
+        //NOTE: There cannot be a right child if the left child is null, as nodes should always have another node
+        // left of them.
+
+        if (nextMinIndex == minIndex) {
+            //BASE CASE: If the nextMinIndex hasn't changed, that means this node has no children anymore. In that
+            // case, return this empty node's minIndex.
+            return minIndex;
         } else {
-            throw new InputMismatchException("ERROR - minPercolateDown - Something went wrong, we accidentally grabbed node: " + minNode.toString() + " (should be null).");
+            //The Node still had children, so check if you can percolate even further down, if its new minIndex has
+            // any children too.
+            return minPercolateDown(minNode);
         }
     }
 
     /**
      * Recursive helper method for percolating a Node in the max-heap downwards, for use with the .removeMax() method.
      *
-     * @param maxIndex int is the index of the given node.
      * @param maxNode Node is the given node to percolate downwards in the max-heap.
      * @return int the new index of the node after it has been percolated down as many times as possible.
      */
-    private int maxPercolateDown(int maxIndex, Node maxNode) {
-        if (maxNode == null) {
-            //We are rebuilding the max heap after removal of the max Node, so swap it with the smallest values each time.
-            Node leftMaxChild = getLeftChild(maxIndex);
-            Node rightMaxChild = getRightChild(maxIndex);
-            int nextMaxIndex = maxIndex;
+    private int maxPercolateDown(Node maxNode) {
+        int maxIndex = depq.indexOf(maxNode);
+        //We are rebuilding the max heap after removal of the max Node, so swap it with the smallest values each time.
+        Node leftMaxChild = getLeftChild(maxIndex);
+        Node rightMaxChild = getRightChild(maxIndex);
+        int nextMaxIndex = maxIndex;
 
-            if (leftMaxChild != null && rightMaxChild != null) {
-                //Compare the two children's priority first.
-                if (leftMaxChild.getKey() > rightMaxChild.getKey()) {
-                    //The left child should be on the position of the null node, in this case.
-                    nextMaxIndex = depq.indexOf(leftMaxChild);
-                    swapNodes(maxIndex, maxNode, nextMaxIndex, leftMaxChild);
-                } else {
-                    //The left child should be on the position of the null node, in this case.
-                    nextMaxIndex = depq.indexOf(rightMaxChild);
-                    swapNodes(maxIndex, maxNode, nextMaxIndex, rightMaxChild);
-                }
-            } else if (leftMaxChild != null) {
+        if (leftMaxChild != null && rightMaxChild != null) {
+            //Compare the two children's priority first.
+            if (leftMaxChild.getKey() > rightMaxChild.getKey()) {
                 //The left child should be on the position of the null node, in this case.
                 nextMaxIndex = depq.indexOf(leftMaxChild);
-                swapNodes(maxIndex, maxNode, nextMaxIndex, leftMaxChild);
-            }
-            //NOTE: There cannot be a right child if the left child is null, as nodes should always have another node
-            // left of them.
-
-            if (nextMaxIndex == maxIndex) {
-                //BASE CASE: If the nextMaxIndex hasn't changed, that means this node has no children anymore. In that
-                // case, return this empty node's maxIndex.
-                return maxIndex;
+                swapNodes(maxNode, leftMaxChild);
             } else {
-                //The Node still had children, so check if you can percolate even further down, if its new maxIndex has
-                // any children too.
-                return maxPercolateDown(nextMaxIndex, maxNode);
+                //The left child should be on the position of the null node, in this case.
+                nextMaxIndex = depq.indexOf(rightMaxChild);
+                swapNodes(maxNode, rightMaxChild);
             }
+        } else if (leftMaxChild != null) {
+            //The left child should be on the position of the null node, in this case.
+            nextMaxIndex = depq.indexOf(leftMaxChild);
+            swapNodes(maxNode, leftMaxChild);
+        }
+        //NOTE: There cannot be a right child if the left child is null, as nodes should always have another node
+        // left of them.
+
+        if (nextMaxIndex == maxIndex) {
+            //BASE CASE: If the nextMaxIndex hasn't changed, that means this node has no children anymore. In that
+            // case, return this empty node's maxIndex.
+            return maxIndex;
         } else {
-            throw new InputMismatchException("ERROR - maxPercolateDown - Something went wrong, we accidentally grabbed node: " + maxNode.toString() + " (should be null).");
+            //The Node still had children, so check if you can percolate even further down, if its new maxIndex has
+            // any children too.
+            return maxPercolateDown(maxNode);
         }
     }
 
@@ -402,7 +422,7 @@ public class DEPQ {
 
     /**
      * Helper method that returns the left child Node of the Node with the given index.
-     *  Index must be from between 0 till depq.size - 1.
+     * Index must be from between 0 till depq.size - 1.
      *
      * @param parentIndex int is the index of the parent Node we want to get the left child of.
      * @return Node the left child of the parent Node (at the given index).
@@ -422,7 +442,7 @@ public class DEPQ {
 
     /**
      * Helper method that returns the right child Node of the Node with the given index.
-     *  Index must be from between 0 till depq.size - 1.
+     * Index must be from between 0 till depq.size - 1.
      *
      * @param parentIndex int is the index of the parent Node we want to get the right child of.
      * @return Node the right child of the parent Node (at the given index).
@@ -440,21 +460,5 @@ public class DEPQ {
         return null;
     }
 
-    /**
-     * Method that gives a simple output for the ArrayList (SMMH DEPQ) that holds all the nodes.
-     *
-     * @return String from StringBuilder that has a list of all nodes in the SMMH DEPQ Arraylist.
-     */
-    public String simpleArrayToString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("<@> Node #0 - ROOT\n");
-
-        for (int i = 1; i < depq.size(); i++) {
-            Node node = depq.get(i);
-            sb.append("<-> Node #" + i + " - " + node.toString() + '\n');
-        }
-
-        return sb.toString();
-    }
+    /*------------------------------------------------------------------------------------- END OF HELPER METHODS ---*/
 }
