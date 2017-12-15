@@ -61,6 +61,9 @@ public class APLSubTwo {
         printAll();
     }
 
+    /**
+     * Misc. method that prints the min- & max-node's values and the list of all nodes in the SMMH DEPQ.
+     */
     private void printAll() {
         System.out.println("The left child of root has a value of: " + depq.getMin());
         System.out.println("The right child of root has a value of: " + depq.getMax());
