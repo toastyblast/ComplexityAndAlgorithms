@@ -78,13 +78,13 @@ public class DEPQ {
             if (depq.size() >= 3) {
                 //This means the newly added node is at least not the top node of the min-heap (aka the left child of root),
                 // meaning we have to compare its value with one on the other heap, and if it's smaller, swap it.
-                int indexNew = depq.size();
+                int indexNew = depq.size() - 1;
 
                 if (isInMaxHeap(indexNew)) {
                     //The new node has been placed in the max-heap, aka the right part of the root node.
-                    int indexCorrespondingNode = getCorrespondingMinNodeIndex(indexNew) - 1;
-                    indexNew = indexNew - 1;
+                    int indexCorrespondingNode = getCorrespondingMinNodeIndex(indexNew);
                     Node correspondingNode = depq.get(indexCorrespondingNode);
+                    System.out.println("This node (max): " + nodeToAdd.toString() + ". Min-heap correspondant: " + correspondingNode);
 
                     if (priority < correspondingNode.getKey()) {
                         //Swap the newly added node on the max-heap with its corresponding node on the min-heap
@@ -97,9 +97,10 @@ public class DEPQ {
                     }
                 } else {
                     //The new node has been placed in the min-heap, aka the left part of the root node.
-                    int indexCorrespondingNode = getCorrespondingMaxNodeIndex(indexNew) - 1;
+                    int indexCorrespondingNode = getCorrespondingMaxNodeIndex(indexNew);
                     indexNew = indexNew - 1;
                     Node correspondingNode = depq.get(indexCorrespondingNode);
+                    System.out.println("This node (min): " + nodeToAdd.toString() + ". Max-heap correspondant: " + correspondingNode);
 
                     if (priority > correspondingNode.getKey()) {
                         //Swap the newly added node on the min-heap with its corresponding node on the max-heap
@@ -153,6 +154,9 @@ public class DEPQ {
      * @return boolean true if the node at given index is in the max-heap, false if it's not.
      */
     private boolean isInMaxHeap(int index) {
+        //The method needs indexes that start from 1, not 0 like in our array.
+        index = index + 1;
+
         double calculation = (3 * Math.pow(2, Math.floor(Math.log(index) / Math.log(2)) - 1) - 1);
 
         if (index > calculation) {
@@ -169,16 +173,30 @@ public class DEPQ {
      * @return int index of the corresponding min-heap node to this max-heap node.
      */
     private int getCorrespondingMinNodeIndex(int index) {
+        //The method needs indexes that start from 1, not 0 like in our array.
+        index = index + 1;
+
         //In this case, there's always a guarantee that there are child nodes in the min-heap on the height
         // corresponding to the height of this node, which means we'll not have to do checks for that.
-        //TODO - NOT SURE: Checks just to be sure, even though it should not be needed?
-        return (int) (index - Math.pow(2, Math.floor(Math.log(index)/Math.log(2)) - 1));
+        int calculation = (int) (index - Math.pow(2, Math.floor(Math.log(index)/Math.log(2)) - 1));
+
+        return (calculation - 1);
     }
 
     private int getCorrespondingMaxNodeIndex(int index) {
-        //TODO: Get the index of the node corresponding to the one at the given index.
-        //...
-        return 0;
+        //The method needs indexes that start from 1, not 0 like in our array.
+        index = index + 1;
+
+        int calculation = (int) (index + Math.pow(2, Math.floor(Math.log(index)/Math.log(2)) - 1));
+        calculation = calculation - 1;
+
+        if (calculation > depq.size()) {
+            Node parentNode = getParentNode(calculation);
+
+            return depq.indexOf(parentNode);
+        } else {
+            return calculation;
+        }
     }
 
     /**
@@ -202,7 +220,7 @@ public class DEPQ {
      * @param node Node is the node that needs to be compared with its parent for possible swapping.
      */
     private void minPercolateUp(int indexNode, Node node) {
-        if (indexNode != 1 && indexNode != 2) {
+        if (indexNode != 0 && indexNode != 1 && indexNode != 2) {
             Node parentNode = getParentNode(indexNode);
 
             if (node.getKey() < parentNode.getKey()) {
@@ -221,7 +239,7 @@ public class DEPQ {
      * @param node Node is the node that needs to be compared with its parent for possible swapping.
      */
     private void maxPercolateUp(int indexNode, Node node) {
-        if (indexNode != 1 && indexNode != 2) {
+        if (indexNode != 0 && indexNode != 1 && indexNode != 2) {
             Node parentNode = getParentNode(indexNode);
 
             if (node.getKey() > parentNode.getKey()) {
@@ -234,9 +252,12 @@ public class DEPQ {
     }
     
     private Node getParentNode(int indexChild) {
-        //TODO: Get the priority of the parent of the given node
-        //...
-        return depq.get(0);
+        //The method needs indexes that start from 1, not 0 like in our array.
+        indexChild = indexChild + 1;
+
+        int indexParent = (int) (Math.floor((indexChild) / 2));
+
+        return depq.get(indexParent - 1);
     }
 
     private void minHeapify(int indexNode) {
@@ -254,7 +275,7 @@ public class DEPQ {
 
         for (int i = 0; i < depq.size(); i++) {
             Node node = depq.get(i);
-            output.add("Node #" + i + " - Priority: " + node.getKey() + " & Value: " + node.getValue());
+            output.add("Node #" + i + " - Priority: " + node.getKey() /*+ " & Value: " + node.getValue()*/);
         }
 
         return output.toString();
