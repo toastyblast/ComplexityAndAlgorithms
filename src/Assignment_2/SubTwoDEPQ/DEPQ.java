@@ -195,11 +195,7 @@ public class DEPQ {
 
         double calculation = (3 * Math.pow(2, Math.floor(Math.log(index) / Math.log(2)) - 1) - 1);
 
-        if (index > calculation) {
-            return true;
-        }
-
-        return false;
+        return index > calculation;
     }
 
     /**
