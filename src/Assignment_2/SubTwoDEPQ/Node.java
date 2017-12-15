@@ -1,7 +1,8 @@
 package Assignment_2.SubTwoDEPQ;
 
 /**
- * A Node Object that has a priority (key) needed for the DEPQ. Also has a value, which is only there for aesthetic reasons.
+ * A Node Object that has a priority (key) needed for the DEPQ. Also has a value, which are only there to give the Node
+ * some purpose, could be used to store text or other objects instead, if wanted.
  */
 public class Node {
     private int key, value;
@@ -29,6 +30,6 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Priority: " + key;
+        return "Priority: " + key + " & Value: " + value;
     }
 }

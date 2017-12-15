@@ -22,6 +22,12 @@ public class APLSubTwo {
         depq.put(30, 410);
         depq.put(19, 411);
 
+        depq.put(5, 412);
+        depq.removeMin();
+
+        depq.put(45, 413);
+        depq.removeMax();
+
         System.out.println(depq.getMin());
         System.out.println(depq.getMax());
         System.out.println(depq.simpleArrayToString());
