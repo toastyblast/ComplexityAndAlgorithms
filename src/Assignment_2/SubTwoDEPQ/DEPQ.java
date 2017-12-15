@@ -6,6 +6,12 @@ import java.util.ArrayList;
  * A DEPQ that works according to the rules set by the Symmetric Min-Max Heap V1.0
  * (http://people.cs.nctu.edu.tw/~chengchc/Course_2011_Fall_DS/DS_09_Heaps.pdf)
  *
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * PLEASE NOTE: Some helper methods or parts of methods might seem duplicate. This has been decided upon by the duo
+ * consciously for the sake of readability. Merging the methods like for example maxPercolateUp() and minPercolateUp
+ * would only add more checks and make the methods less readable. We hope this is understood and deemed as acceptable.
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ *
  * @author Yoran Kerbusch & Martin S. Slavov
  */
 public class DEPQ {
