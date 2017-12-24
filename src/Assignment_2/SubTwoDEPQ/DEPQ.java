@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * would only add more checks and make the methods less readable. We hope this is understood and deemed as acceptable.
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  *
- * @author Yoran Kerbusch & Martin S. Slavov
+ * @author Yoran Kerbusch (430818) & Martin S. Slavov (435666)
  */
 public class DEPQ {
     private ArrayList<Node> depq;
@@ -320,7 +320,7 @@ public class DEPQ {
      *
      * @param index int is the index of the node that has just been set to null.
      */
-    public void repairHeapAfterRemoval(int index) {
+    private void repairHeapAfterRemoval(int index) {
         boolean isInMax = isInMaxHeap(index);
         int indexToFill;
 
