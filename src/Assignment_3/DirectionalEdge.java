@@ -6,9 +6,9 @@ package Assignment_3;
 public class DirectionalEdge {
     private final Vertex fromVertex;
     private final Vertex toVertex;
-    private final String colour;
+    private final Colours colour;
 
-    public DirectionalEdge(Vertex fromVertex, Vertex toVertex, String colour) {
+    public DirectionalEdge(Vertex fromVertex, Vertex toVertex, Colours colour) {
         this.fromVertex = fromVertex;
         this.toVertex = toVertex;
         this.colour = colour;
@@ -22,7 +22,12 @@ public class DirectionalEdge {
         return fromVertex;
     }
 
-    public String getColour() {
+    public Colours getColour() {
         return colour;
+    }
+
+    @Override
+    public String toString() {
+        return "\n(-) From: " + fromVertex.getCoordinate() + " - To: " + toVertex.getCoordinate() + " - Colour: " + colour;
     }
 }

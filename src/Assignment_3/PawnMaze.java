@@ -1,76 +1,120 @@
 package Assignment_3;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Class that represents the PawnMaze from Assignment 3 - Sub-assignment 1. Has positions and arrows pointing between them.
  */
 public class PawnMaze {
-    private Set<Vertex> positions;
-    private Set<DirectionalEdge> arrows;
-    private Map<Vertex, Set<DirectionalEdge>> outGoingArrowsFromPosition;
+    private ArrayList<Vertex> positions;
 
     public PawnMaze() {
-        positions = new HashSet<>();
-        arrows = new HashSet<>();
-        outGoingArrowsFromPosition = new HashMap<>();
+        positions = new ArrayList<>();
     }
 
-    public Set<Vertex> getConnectedPositions(Vertex current) {
-        Set<DirectionalEdge> outgoingArrows = outGoingArrowsFromPosition.get(current);
-        Set<Vertex> result = new HashSet<>();
+    public void loadFile(String fileName) {
+        String tempLine;
+        int counter = 0;
 
-        for (DirectionalEdge arrow : outgoingArrows) {
-            result.add(arrow.getToVertex());
-        }
+        try {
+            FileReader fileReader = new FileReader(fileName);
 
-        return result;
-    }
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-    public Set<DirectionalEdge> getConnectedArrows(Vertex current) {
-        return outGoingArrowsFromPosition.get(current);
-    }
+            while((tempLine = bufferedReader.readLine()) != null) {
+                counter++;
+                String[] stringArray = tempLine.split(" ");
 
-    public boolean addPosition(Vertex newPosition) {
-        if (positions.add(newPosition)) {
-            //Now that we know we have added the position, also make an entry for it with all its connections.
-            outGoingArrowsFromPosition.put(newPosition, new HashSet<>());
-
-            //The new position could be added to the PawnMaze.
-            return true;
-        }
-
-        //The new position could not be added to the PawnMaze as it most likely already exists in the set.
-        return false;
-    }
-
-    public boolean addArrow(Vertex from, Vertex to, String colour) {
-        DirectionalEdge arrow = new DirectionalEdge(from, to, colour);
-
-//        for (DirectionalEdge tempArrow: arrows) {
-//            if (tempArrow.getToVertex().equals(from) && tempArrow.getFromVertex().equals(to)) {
-//                //There can only be one arrow between to vertices in the PawnMaze, so no back and forth.
-//                return false;
-//            }
-//        }
-
-        if (outGoingArrowsFromPosition.containsKey(to) && outGoingArrowsFromPosition.containsKey(from)) {
-            if (!arrows.add(arrow)) {
-                //The arrow could not be added, as there most likely is one that's exactly like it in the set already.
-                return false;
+                if (stringArray[0].equals("#")) {
+                    //Ignore this case, as it's a comment and does not need to be parsed.
+                }
+                else if (stringArray.length == 2) {
+                    //CASE: The line encountered is "<nodeCoordinate> <colour>"
+                    handleNewNodeLine(stringArray);
+                }
+                else if (stringArray.length == 4) {
+                    //CASE: The found line is "<fromNodeCoord> -> <colour> <toNodeCoord>"
+                    handleNewVertexLine(stringArray);
+                }
+                else {
+                    //CASE: Unknown line.
+                    throw new IOException("Unknown line read from file: " + tempLine + ". Does not follow the supplied conventions.");
+                }
             }
 
-            //Now that we know we can add the arrow to the outgoing position's hashSet as well.
-            outGoingArrowsFromPosition.get(from).add(arrow);
+            bufferedReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Could not find file with name: " + fileName + ". Message: " + e.toString());
+            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Error encountered on file " + fileName + " line #" + counter + ". Message: " + e.toString());
+            e.printStackTrace();
+        }
+    }
 
-            //The new Directional edge has successfully been added to the PawnMaze.
-            return true;
+    private void handleNewNodeLine (String[] stringArray) throws IOException {
+        int tempCoordinate = Integer.parseInt(stringArray[0]);
+
+        for (Vertex position: positions) {
+            if (position.getCoordinate() == tempCoordinate) {
+                throw new IOException("Position with coordinate " + tempCoordinate + " already exists in the maze!");
+            }
         }
 
-        //The arrow could not be added as either the to or from positions given do not exist in the PawnMaze.
-        return false;
+        Colours tempColour = Colours.valueOf(stringArray[1].toUpperCase());
+
+        //We should be able to assume it is correct, otherwise either method throws an exception and the program is halted.
+        positions.add(new Vertex(tempCoordinate, tempColour));
+    }
+
+    private void handleNewVertexLine (String[] stringArray) throws IOException {
+        int fromNodeCoord = Integer.parseInt(stringArray[0]);
+        int toNodeCoord = Integer.parseInt(stringArray[3]);
+        Vertex fromNode = null;
+        Vertex toNode = null;
+
+        for (Vertex position: positions) {
+            if (position.getCoordinate() == fromNodeCoord) {
+                //We have found a position with the same from node coordinate as we were given, so store it.
+                fromNode = position;
+            } else if (position.getCoordinate() == toNodeCoord) {
+                //We have found a position with the same to node coordinate as we were given, so store it.
+                toNode = position;
+            }
+
+            if (fromNode != null && toNode != null) {
+                //We have found the to and from node to exist, we can stop looping!
+                break;
+            }
+        }
+
+        if (fromNode == null) {
+            throw new IOException("The specified from [" + fromNodeCoord + "] coordinate do not exist.");
+        } else if (toNode == null) {
+            throw new IOException("The specified to [" + toNodeCoord + "] coordinate do not exist.");
+        }
+
+        Colours tempColour = Colours.valueOf(stringArray[2].toUpperCase());
+
+        fromNode.addArrow(fromNode, toNode, tempColour);
+    }
+
+    public ArrayList<Vertex> getPositions() {
+        return positions;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder(super.toString());
+
+        for (Vertex position: positions) {
+            string.append(position.toString());
+        }
+
+        return string.toString();
     }
 }

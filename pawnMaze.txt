@@ -1,0 +1,61 @@
+# Naming convention for adding new positions: "<uniqueCoordinate> <pink/black/green/orange>".
+1 pink
+2 black
+3 green
+4 green
+5 green
+6 orange
+7 orange
+8 pink
+9 pink
+10 black
+11 orange
+12 pink
+13 orange
+14 green
+15 orange
+16 green
+17 green
+18 black
+19 orange
+20 green
+21 black
+22 black
+0 black
+# Naming convention for adding new arrows: "<fromCoordinate> -> <pink/black/green/orange> <toCoordinate>".
+1 -> pink 4
+1 -> black 5
+2 -> green 6
+2 -> pink 12
+3 -> orange 1
+3 -> orange 4
+4 -> black 13
+5 -> orange 9
+6 -> green 9
+6 -> pink 10
+7 -> green 2
+8 -> pink 3
+9 -> green 4
+9 -> black 14
+10 -> green 15
+11 -> pink 10
+11 -> green 12
+12 -> green 7
+13 -> green 8
+13 -> green 18
+14 -> orange 20
+14 -> green 0
+15 -> green 22
+15 -> pink 0
+16 -> green 15
+17 -> black 11
+17 -> pink 12
+17 -> black 16
+18 -> orange 9
+18 -> orange 20
+19 -> green 18
+20 -> black 19
+20 -> orange 21
+21 -> black 0
+21 -> orange 22
+22 -> orange 17
