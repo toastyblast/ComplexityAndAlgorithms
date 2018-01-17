@@ -1,6 +1,8 @@
 # Naming convention for adding new positions: "<uniqueCoordinate> <pink/black/green/orange>".
-1 pink
-2 black
+# Starts & end can also be defined using "<uniqueCoordinate> <pink/black/green/orange> <pawnOne/pawnTwo/goal>".
+# Both starting positions and the goal HAVE to be defined, and EACH can only be defined ONCE!
+1 pink pawnOne
+2 black pawnTwo
 3 green
 4 green
 5 green
@@ -21,7 +23,7 @@
 20 green
 21 black
 22 black
-0 black
+23 black goal
 # Naming convention for adding new arrows: "<fromCoordinate> -> <pink/black/green/orange> <toCoordinate>".
 1 -> pink 4
 1 -> black 5
@@ -44,9 +46,9 @@
 13 -> green 8
 13 -> green 18
 14 -> orange 20
-14 -> green 0
+14 -> green 23
 15 -> green 22
-15 -> pink 0
+15 -> pink 23
 16 -> green 15
 17 -> black 11
 17 -> pink 12
@@ -56,6 +58,6 @@
 19 -> green 18
 20 -> black 19
 20 -> orange 21
-21 -> black 0
+21 -> black 23
 21 -> orange 22
 22 -> orange 17

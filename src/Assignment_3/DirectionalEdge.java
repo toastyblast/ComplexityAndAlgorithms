@@ -28,6 +28,6 @@ public class DirectionalEdge {
 
     @Override
     public String toString() {
-        return "\n(-) From: " + fromVertex.getCoordinate() + " - To: " + toVertex.getCoordinate() + " - Colour: " + colour;
+        return "\n\t(-) From: " + fromVertex.getCoordinate() + " - To: " + toVertex.getCoordinate() + " - Colour: " + colour;
     }
 }
