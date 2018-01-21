@@ -1,0 +1,10 @@
+# Naming convention for adding new positions: "<uniqueCoordinate> <pink/black/green/orange>".
+# Starts & end can also be defined using "<uniqueCoordinate> <pink/black/green/orange> <pawnOne/pawnTwo/goal>".
+# Both starting positions and the goal HAVE to be defined, and EACH can only be defined ONCE!
+# ADD A NEW PAWN MAZE TO THE APL OR LOAD THIS ONE INTO THE EXISTING ONE TO SEE THAT THE SYSTEM WILL NOT FIND A PATH.
+1 green pawnOne
+2 pink pawnTwo
+3 black goal
+# Naming convention for adding new arrows: "<fromCoordinate> -> <pink/black/green/orange> <toCoordinate>".
+1 -> black 3
+2 -> orange 3

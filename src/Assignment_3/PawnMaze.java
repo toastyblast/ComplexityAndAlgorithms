@@ -71,6 +71,15 @@ public class PawnMaze {
                 //Get the starting state for the maze.
                 startState = new PositionState(startOne, startTwo, null);
                 System.out.println("SUCCESS: Pawn maze has successfully been constructed from file: " + fileName + ".");
+            } else {
+                //Clear all the existing data, as it is not complete and therefore not usable.
+                positions.clear();
+                startOne = null;
+                startTwo = null;
+                endVertex = null;
+                //Let the user know about this issue.
+                System.out.println("ERROR: No 'pawnOne', 'pawnTwo' and/or 'goal' have been defined as nodes in the " +
+                        "given text file: " + fileName + ". Please make sure there's one present of each of these.");
             }
         } catch (FileNotFoundException e) {
             System.out.println("Could not find file with name: " + fileName + ". Message: " + e.toString());
@@ -78,6 +87,11 @@ public class PawnMaze {
         } catch (IOException e) {
             System.out.println("Error encountered on file " + fileName + " line #" + counter + ". Message: " + e.toString());
             e.printStackTrace();
+            //Clear all the existing data, as it is not complete and therefore not usable.
+            positions.clear();
+            startOne = null;
+            startTwo = null;
+            endVertex = null;
         }
     }
 
