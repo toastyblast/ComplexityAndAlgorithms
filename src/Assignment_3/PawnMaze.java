@@ -203,7 +203,7 @@ public class PawnMaze {
     /**
      * Private helper method that checks if the user defined the two start locations and the goal in their file.
      *
-     * @return
+     * @return boolean true if the pawn maze could be constructed, false if not.
      */
     private boolean correctConstruction() {
         return startOne != null && startTwo != null && endVertex != null;
